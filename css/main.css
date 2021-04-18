@@ -1,0 +1,99 @@
+
+  a {
+    text-decoration: none;
+    color: black;
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding-bottom: 10px;
+  }
+
+  .isChecked {
+    text-decoration: line-through;
+  }
+
+  .header {
+    padding: 40px 0;
+    position: relative;
+  }
+
+  h1 {
+    font-size: 50px;
+  }
+
+  .active {
+    font-weight: bold;
+  }
+
+  .bg-none {
+    background: none;
+    border: none;
+  }
+
+
+  .wrap {
+    padding: 80px 0 80px 0;
+    min-height: 100vh;
+  }
+
+  .todos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .todo-wrap {
+    min-height: 70vh;
+    width: 400px;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.438);
+  }
+
+  .todo-list {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .todos-item {
+    display: flex;
+    color: white;
+    padding: 15px;
+    font-size: 20px;
+    justify-content: space-around;
+    background-color: rgba(255, 255, 255, 0.062);
+    transition: .5s;
+
+  }
+
+  .todos-item:hover {
+    background-color: rgba(255, 255, 255, 0.199);
+    cursor: pointer;
+  }
+
+  .todo-title {
+    width: 60%;
+  }
+
+  .todos-num {
+    color: white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 50%;
+    border: 1px solid white;
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+  }
+
+  @media screen and (max-width: 414px) {
+
+    .wrap {
+      padding: 10px;
+      min-height: 100vh;
+    }
+    .todo-wrap {
+      min-height: 95vh;
+    }
+  }

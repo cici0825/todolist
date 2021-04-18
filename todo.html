@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="./vendor.js"></script>
+  <link rel="stylesheet" href="./css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/main.css">
+  <title>VueTodoList</title>
+</head>
+
+
+<body>
+  <div class="bg-secondary wrap">
+
+    <div class="d-flex justify-content-center align-items-center ">
+      <div id="app" class="todo-wrap bg-primary  shadow-lg">
+        <div class="header ">
+          <h1 class="text-center text-white">
+            TODO
+          </h1>
+          <blockquote class="blockquote text-center">
+            <span class="todos-num"> {{count}} </span>
+            <footer class="blockquote-footer">Get things done, one item at a time. <cite title="Source Title">vue
+                todolist</cite></footer>
+          </blockquote>
+        </div>
+
+        <div>
+          <form class="d-flex justify-content-center align-items-center ">
+            <input class="form-control mr-2" type="text" placeholder="todo...." v-model="newTodo"
+              @keyup.enter="addTodo">
+            <!-- 新增 -->
+            <button class="btn btn-outline-secondary active" @click="addTodo">add</button>
+          </form>
+
+        </div>
+        <div class="todo-list">
+
+          <!-- v-for newTodo 可傳入 索引位置   -->
+          <div class="todos-item shadow-sm mt-2" v-for="(todo,key) in filterTodo ">
+            <span class="todo-title" :class="{'isChecked':todo.isCheck}" @dblclick="editTodo(todo)"
+              v-if="todo.id !== cacheTodo.id">
+              {{todo.title}}
+            </span>
+
+            <!-- v-if 可用來當作是否顯示的指令 true 出現 false 隱藏 -->
+            <div class="d-flex align-items-center justify-content-xl-between">
+              <input class="todos-checkbox " type="text" v-if="todo.id === cacheTodo.id" v-model="cacheTodo.title"
+                @keyup.esc="cancelEdit()" @keyup.enter="doneEdit(todo)" />
+              <button class="bg-none mr-3 text-white" @click="editTodo(todo)" @keyup.esc="cancelEdit()"><svg
+                  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-pencil-square" viewBox="0 0 16 16">
+                  <path
+                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                  <path fill-rule="evenodd"
+                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                </svg>
+              </button>
+              <input class="mr-3" type="checkbox" v-model="todo.isCheck">
+              <button class="bg-none text-white" @click="deleteTodo(todo)"><svg xmlns="http://www.w3.org/2000/svg"
+                  width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                  <path
+                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 篩選 點擊tab會重新排序資料 -->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item ">
+            <a class="text-white" href="#" :class="{'active' : todoStatus === 'allTodos'}"
+              @click=" todoStatus='allTodos'">all</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a class="text-white" href="#" :class="{'active' : todoStatus === 'finished'}"
+              @click=" todoStatus='finished'">finished</a>
+          </li>
+          <li class="breadcrumb-item ">
+            <a class="text-white" href="#" :class="{'active' : todoStatus === 'unfinished'}"
+              @click=" todoStatus='unfinished'">unfinished</a>
+          </li>
+          <li class="breadcrumb-item ">
+            <a class="text-white" href="#" @click="removeAll">remove</a>
+          </li>
+        </ol>
+
+
+      </div>
+
+    </div>
+
+    <footer class="p-4 text-center">
+      <blockquote class=" p-4 blockquote text-center">
+
+        <p class="mb-0 font-1">All : ADD / DELETE / EDIT / DELETE ALL / FILTER </p>
+        <!-- <p class="mb-0 font-1">功能 新增刪除編輯 刪除全部 篩選todo</p> -->
+        <footer class="blockquote-footer">Vue Demo form <cite title="Source Title">wufangci</cite></footer>
+      </blockquote>
+
+    </footer>
+
+</body>
+<script>
+  const app = new Vue({
+
+    el: '#app',
+    data: {
+      newTodo: '',
+      todos: [{
+        id: null,
+        title: 'Learn VueJs',
+        isCheck: false,
+
+      }, {
+        id: null,
+        title: 'coding 3hr',
+        isCheck: true,
+
+      }],
+      count: 1,
+      cacheTodo: {},
+      cacheTitle: '',
+      todoStatus: 'allTodos',
+    },
+    methods: {
+
+      addTodo: function () {
+        let value = this.newTodo;
+        let created = Math.floor(Date.now());
+        if (!value) return;
+
+        this.todos.push({
+          id: created,
+          title: value,
+          isCheck: false
+        })
+        this.newTodo = '';
+      },
+      deleteTodo: function (todos) {
+        let targetIndex = '';
+        //  從資料中比對資料的id跟陣列索引中key.id是不是相符，回傳 target 的 index 
+        this.todos.forEach(function (todo, key) {
+          if (todos.id === todo.id) return targetIndex = key;
+        })
+        this.todos.splice(targetIndex, 1); // 在資料中刪除 從索引位置, 一筆資料
+      },
+      editTodo: function (todo) {
+        this.cacheTodo = todo; // 把cache指向點擊的todo物件
+        this.cacheTitle = todo.title;
+
+      },
+      cancelEdit: function () {
+        this.cacheTodo = {};
+      },
+      doneEdit: function (todo) {
+        todo.title = this.cacheTitle; // 把 todo 的 title 指向我們暫存的 title
+        this.cacheTitle = ''; // 清空預存的 title
+        this.cacheTodo = {}; // 清空預存的物件
+      },
+      removeAll: function () {
+        this.todos = [];
+      }
+    },
+    computed: {
+      filterTodo: function () {
+
+        let finished = 'finished';
+        let allTodos = 'allTodos';
+        let unfinished = 'unfinished';
+        let filterResult = [];
+        // let counter = this.count;
+
+        if (this.todoStatus === allTodos) {
+          this.count = this.todos.length;
+          return this.todos;
+        }
+
+        if (this.todoStatus === finished) {
+
+          this.todos.forEach((todo) => {
+            todo.isCheck ? filterResult.push(todo) : 'error';
+          })
+          this.count = filterResult.length;
+          return filterResult;
+
+        } else if (this.todoStatus === unfinished) {
+
+          this.todos.forEach((todo) => {
+            todo.isCheck ? 'error' : filterResult.push(todo);
+
+          })
+          this.count = filterResult.length;
+          return filterResult;
+        }
+
+      },
+
+    }
+
+  })
+</script>
+
+</html>
