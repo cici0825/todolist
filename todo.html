@@ -52,7 +52,7 @@
             <!-- v-if 可用來當作是否顯示的指令 true 出現 false 隱藏 -->
             <div class="d-flex align-items-center justify-content-xl-between">
               <input class="todos-checkbox " type="text" v-if="todo.id === cacheTodo.id" v-model="cacheTodo.title"
-                @keyup.esc="cancelEdit()" @keyup.enter="doneEdit(todo)" />
+                @keyup.esc="cancelEdit()" @keyup.enter="doneEdit(todos)" />
               <button class="bg-none mr-3 text-white" @click="editTodo(todo)" @keyup.esc="cancelEdit()"><svg
                   xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                   class="bi bi-pencil-square" viewBox="0 0 16 16">
